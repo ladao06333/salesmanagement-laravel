@@ -30,6 +30,8 @@ Route::group([
     'namespace' => 'Frontend',
 ], function () {
     Route::get('/', 'HomeController@index');
+    Route::get('/detail/{id}', 'HomeController@show');
+
 
     //blog
     Route::get('/blog-list', 'BlogController@index');
@@ -51,7 +53,12 @@ Route::group([
     Route::post('/account/save-profile', 'MemberController@store');
 
     //product
-    Route::get('/account/product', 'ProductController@create');
+    Route::get('/account/product', 'ProductController@index');
+    Route::get('/account/product/add', 'ProductController@create');
+    Route::post('/account/product/add', 'ProductController@store');
+    Route::get('/account/product/edit/{id}', 'ProductController@edit');
+    Route::post('/account/product/edit/{id}', 'ProductController@update');
+    Route::get('/account/product/delete/{id}', 'ProductController@destroy');
 });
 
 Auth::routes();
@@ -76,6 +83,18 @@ Route::group([
     Route::get('/country/add', 'CountryController@create');
     Route::post('/country/add', 'CountryController@store');
     Route::get('/country/delete/{id}', 'CountryController@destroy');
+
+    //category
+    Route::get('/category', 'CategoryController@index');
+    Route::get('/category/add', 'CategoryController@create');
+    Route::post('/category/add', 'CategoryController@store');
+    Route::get('/category/delete/{id}', 'CategoryController@destroy');
+
+    //brand
+    Route::get('/brand', 'BrandController@index');
+    Route::get('/brand/add', 'BrandController@create');
+    Route::post('/brand/add', 'BrandController@store');
+    Route::get('/brand/delete/{id}', 'BrandController@destroy');
 
     //blog
     Route::get('/blog', 'BlogController@index');

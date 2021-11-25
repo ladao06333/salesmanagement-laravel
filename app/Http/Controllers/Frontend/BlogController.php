@@ -65,10 +65,12 @@ class BlogController extends Controller
         $blog  = blog::find($id);
         $max = blog::max('id');
         $min = blog::min('id');
-        $comment = comment::all()->where('id_blog', $id);
+        //$comment = comment::all()->where('id_blog', $id);
         $getBlogDetail = Blog::with(['comment' => function ($q) {
             $q->orderBy('id', 'desc');
         }])->find($id)->toArray();
+        $comment = $getBlogDetail['comment'];
+        // dd($comment);
         // $getBlogDetail = Blog::with(['comment' => function ($q) {
         //     $q->orderBy('id', 'desc');
         // }])->find($id)->get();

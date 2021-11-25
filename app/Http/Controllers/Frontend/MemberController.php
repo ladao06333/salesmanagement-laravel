@@ -21,7 +21,9 @@ class MemberController extends Controller
     public function __construct()
     {
         $this->modelUser = new user();
+        // $this->middleware('auth');
     }
+
 
     /**
      * Display a listing of the resource.

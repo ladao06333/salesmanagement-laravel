@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Frontend;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\brand;
-use App\Models\product;
 use Illuminate\Http\Request;
+use App\Models\brand;
 
-class HomeController extends Controller
+class BrandController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +15,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $product = product::orderBy('created_at', 'desc')->limit(6)->get();
-        // dd($product);
-
-        return view('frontend.home')->with('product', $product);
+        $brand = brand::all();
+        return view('admin.user.brand')->with('brand', $brand);
     }
 
     /**
@@ -29,6 +26,7 @@ class HomeController extends Controller
      */
     public function create()
     {
+        return view('admin.user.addBrand');
     }
 
     /**
@@ -39,7 +37,13 @@ class HomeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = new brand;
+        $data->name = $request->name;
+        if ($data->save()) {
+            return redirect()->back()->with('success', ('Add brand success'));
+        } else {
+            return redirect()->back()->withErrors('Add brand fail');
+        }
     }
 
     /**
@@ -50,12 +54,7 @@ class HomeController extends Controller
      */
     public function show($id)
     {
-        $product = product::find($id);
-        $getArrImage = json_decode($product->hinhanh, true);
-        dd($getArrImage);
-        // dd($getArrImage);
-        $brand = brand::where('id', $product->id_brand)->first();
-        return view('frontend.detail', compact(['product', 'getArrImage', 'brand']));
+        //
     }
 
     /**
@@ -89,6 +88,7 @@ class HomeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        brand::find($id)->delete();
+        return redirect()->back()->with('success', ('Delete brand success'));
     }
 }

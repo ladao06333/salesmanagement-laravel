@@ -119,7 +119,7 @@
             <li class="media">
                 <a class="pull-left" href="#">
                     <img class="media-object" style="max-height: 80px"
-                        src="{{asset('admin/upload/user/avatar/'.$a->image)}}" alt="">
+                        src="{{asset('admin/upload/user/avatar/'.$a['image'])}}" alt="">
                 </a>
                 <div class="media-body">
                     <ul class="sinlge-post-meta">

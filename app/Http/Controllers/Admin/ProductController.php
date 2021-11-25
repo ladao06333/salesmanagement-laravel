@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Frontend;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\brand;
-use App\Models\product;
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +14,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $product = product::orderBy('created_at', 'desc')->limit(6)->get();
-        // dd($product);
-
-        return view('frontend.home')->with('product', $product);
+        //
     }
 
     /**
@@ -29,6 +24,7 @@ class HomeController extends Controller
      */
     public function create()
     {
+        //
     }
 
     /**
@@ -50,12 +46,7 @@ class HomeController extends Controller
      */
     public function show($id)
     {
-        $product = product::find($id);
-        $getArrImage = json_decode($product->hinhanh, true);
-        dd($getArrImage);
-        // dd($getArrImage);
-        $brand = brand::where('id', $product->id_brand)->first();
-        return view('frontend.detail', compact(['product', 'getArrImage', 'brand']));
+        //
     }
 
     /**
