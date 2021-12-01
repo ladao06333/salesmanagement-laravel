@@ -16,6 +16,7 @@
     <link href="{{asset('frontend/css/animate.css')}}" rel="stylesheet">
     <link href="{{asset('frontend/css/main.css')}}" rel="stylesheet">
     <link href="{{asset('frontend/css/responsive.css')}}" rel="stylesheet">
+    <link href="{{asset('frontend/css/sweetalert.css')}}" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
@@ -687,7 +688,58 @@
     <script src="{{asset('frontend/js/price-range.js')}}"></script>
     <script src="{{asset('frontend/js/jquery.prettyPhoto.js')}}"></script>
     <script src="{{asset('frontend/js/main.js')}}"></script>
-    <script>
+    <script src="{{asset('frontend/js/sweetalert.min.js')}}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('#addCart').click(function(){
+                var id = $(this).data('index');
+                console.log(id);
+                $.ajax({
+                    url: "{{url('add-to-cart-ajax')}}",
+                    type:'POST',
+                    data:{
+                        id:id,
+                        // "_token": "{{ csrf_token() }}",
+                        _token: '{{csrf_token()}}',
+                    },
+                success:function(data) {
+                }
+            });
+
+
+        // $(document).ready(function(){
+        //     $('.add-to-cart').click(function(){
+        //         var id = $(this).data('id_product');
+        //         var cart_product_id = $('.cart_product_id_'+id).val();
+        //         var cart_product_name = $('.cart_product_name_'+id).val();
+        //         var cart_product_image = $('.cart_product_image_'+id).val();
+        //         var cart_product_price = $('.cart_product_price_'+id).val();
+        //         var cart_product_qty = $('.cart_product_qty_'+id).val();
+        //         // alert(cart_product_image);
+        //         // var _token = $('input[name]="_token"]').val();
+        //         $.ajax({
+        //         url: "{{url('add-cart-ajax')}}",
+        //         method:"POST",
+        //         data:{
+        //             cart_product_id:cart_product_id,
+        //                 cart_product_name:cart_product_name,
+        //                 cart_product_image:cart_product_image,
+        //                 cart_product_price:cart_product_price,
+        //                 cart_product_qty:cart_product_qty,
+        //             "_token": "{{ csrf_token() }}",
+        //         },
+        //         success:function(data){
+        //           alert(data);
+        //         }
+        //     });
+            });
+
+
+
+
+
+            // swal("Here's a message!", "It's pretty, isn't it?")
+        });
         function remove_background(blog_id){
             for (var count= 1; count<=5; count++){
                 $('#'+blog_id+'-'+count).css('color','#ccc');
@@ -732,7 +784,7 @@
                 alert('Đăng nhập để vote');
            } else {
             $.ajax({
-                url: "{{url('insert-rating')}}",
+                url: "{{url('update-cart-ajax')}}",
                 method:"POST",
                 data:{
                     index:index, 

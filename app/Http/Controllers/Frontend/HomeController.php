@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\brand;
+use App\Models\category;
 use App\Models\product;
 use Illuminate\Http\Request;
 
@@ -18,8 +19,9 @@ class HomeController extends Controller
     {
         $product = product::orderBy('created_at', 'desc')->limit(6)->get();
         // dd($product);
-
-        return view('frontend.home')->with('product', $product);
+        $allcategory = category::all();
+        $allbrand = brand::all();
+        return view('frontend.home', compact('product', 'allcategory', 'allbrand'));
     }
 
     /**
@@ -52,10 +54,11 @@ class HomeController extends Controller
     {
         $product = product::find($id);
         $getArrImage = json_decode($product->hinhanh, true);
-        dd($getArrImage);
         // dd($getArrImage);
+        $allcategory = category::all();
+        $allbrand = brand::all();
         $brand = brand::where('id', $product->id_brand)->first();
-        return view('frontend.detail', compact(['product', 'getArrImage', 'brand']));
+        return view('frontend.detail', compact(['product', 'getArrImage', 'brand', 'allbrand', 'allcategory']));
     }
 
     /**

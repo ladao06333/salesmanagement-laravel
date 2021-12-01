@@ -48,8 +48,9 @@
                         <h4>{{$item->name}}</h4>
                     </td>
                     <td class="image">
-                        <a href=""><img style="width: 100px" src="{{asset('admin/upload/product/')}}" alt=""></a>
-                        <a href=""><img style="width: 100px" src="{{asset('admin/upload/product/'.$getArrImage[0])}}"
+                        {{-- <a href=""><img style="width: 100px" src="{{asset('admin/upload/product/')}}" alt=""></a>
+                        --}}
+                        <a href=""><img style="width: 100px" src="{{asset('upload/product/'.$getArrImage[0])}}"
                                 alt=""></a>
                     </td>
                     <td class="cart_price">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MemberRequest;
+use App\Models\category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 // use Illuminate\Support\Facades\Session;
@@ -36,6 +37,8 @@ class MemberController extends Controller
     }
     public function vlogin()
     {
+        // $allcateogry = category::all();
+        // return view('frontend.member.login', compact('allcateogry'));
         return view('frontend.member.login');
     }
     public function vregister()

@@ -59,6 +59,19 @@ Route::group([
     Route::get('/account/product/edit/{id}', 'ProductController@edit');
     Route::post('/account/product/edit/{id}', 'ProductController@update');
     Route::get('/account/product/delete/{id}', 'ProductController@destroy');
+
+    //cart
+    // Route::post('/save-cart', 'CartController@save_cart');
+    // Route::get('/show-cart', 'CartController@show_cart');
+    //--ajax
+    Route::post('/add-to-cart-ajax', 'CartController@add_to_cart_ajax');
+    Route::post('/update-cart-ajax', 'CartController@update_cart_ajax');
+    Route::get('/sendmail', 'CartController@sendmail');
+
+
+
+    // Route::post('/add-cart-ajax', 'CartController@add_cart_ajax');
+    Route::get('/gio-hang', 'CartController@gio_hang');
 });
 
 Auth::routes();

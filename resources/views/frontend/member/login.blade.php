@@ -1,4 +1,4 @@
-@extends('frontend.layouts.app')
+@extends('frontend.layouts.app2')
 @section('content')
 @if(session('success'))
 <div class="alert alert-success alert-dismissible">

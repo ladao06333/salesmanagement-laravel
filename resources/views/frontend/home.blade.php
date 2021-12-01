@@ -9,15 +9,30 @@
     // echo $getArrImage[1];
 ?>
     <div class="col-sm-4">
-        <a href="{{URL::to('/detail/'.$item->id)}}">
+        {{-- <a href="{{URL::to('/detail/'.$item->id)}}"> --}}
             <div class="product-image-wrapper">
                 <div class="single-products">
                     <div class="productinfo text-center">
-                        <img src="{{asset('admin/upload/product/'.$getArrImage[2])}}" alt="">
-                        <h2>{{$item->price}}</h2>
-                        <p>{{$item->name}}</p>
-                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to
-                            cart</a>
+                        <form>
+                            @csrf
+                            <input type="hidden" value="{{$item->id}}" class="cart_product_id_{{$item->id}}">
+                            <input type="hidden" value="{{$item->name}}" class="cart_product_name_{{$item->id}}">
+                            <input type="hidden" value="{{$getArrImage[0]}}" class="cart_product_image_{{$item->id}}">
+                            <input type="hidden" value="{{$item->price}}" class="cart_product_price_{{$item->id}}">
+                            <input type="hidden" value="1" class="cart_product_qty_{{$item->id}}">
+                            <a href="{{URL::to('/detail/'.$item->id)}}">
+                                <img src="{{asset('upload/product/'.$getArrImage[0])}}" alt="">
+                                <h2>{{$item->price}}</h2>
+                                <p>{{$item->name}}</p>
+                                {{-- <a href="#" class="btn btn-default add-to-cart"><i
+                                        class="fa fa-shopping-cart"></i>Add
+                                    to
+                                    cart</a> --}}
+                            </a>
+                            <button type="button" class="btn btn-default add-to-cart" data-id_product="{{$item->id}}"
+                                name="add-to-cart">Thêm giỏ
+                                hàng</button>
+                        </form>
                     </div>
                     {{-- <div class="product-overlay">
                         <div class="overlay-content">
@@ -35,7 +50,8 @@
                     </ul>
                 </div>
             </div>
-        </a>
+            {{--
+        </a> --}}
     </div>
     @endforeach
 </div>

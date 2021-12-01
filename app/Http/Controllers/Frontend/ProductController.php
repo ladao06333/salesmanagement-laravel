@@ -75,7 +75,7 @@ class ProductController extends Controller
             }
             foreach ($request->file('hinhanh') as $image) {
                 $time = strtotime(date('Y-m-d H:i:s'));
-                $name = $image->getClientOriginalName();
+                $name = $time . "_" . $image->getClientOriginalName();
                 $name_2 = "hinh50_" . $time . "_" . $image->getClientOriginalName();
                 $name_3 = "hinh200_" . $time . "_" . $image->getClientOriginalName();
 
@@ -199,7 +199,7 @@ class ProductController extends Controller
                         }
                         foreach ($request->file('hinhanh') as $image) {
                             $time = strtotime(date('Y-m-d H:i:s'));
-                            $name = $image->getClientOriginalName();
+                            $name = $time . "_" . $image->getClientOriginalName();
                             $name_2 = "hinh50_" . $time . "_" . $image->getClientOriginalName();
                             $name_3 = "hinh200_" . $time . "_" . $image->getClientOriginalName();
 
@@ -247,7 +247,7 @@ class ProductController extends Controller
                     if ($request->hasfile('hinhanh')) {
                         foreach ($request->file('hinhanh') as $image) {
                             $time = strtotime(date('Y-m-d H:i:s'));
-                            $name = $image->getClientOriginalName();
+                            $name = $time . "_" . $image->getClientOriginalName();
                             $name_2 = "hinh50_" . $time . "_" . $image->getClientOriginalName();
                             $name_3 = "hinh200_" . $time . "_" . $image->getClientOriginalName();
 
