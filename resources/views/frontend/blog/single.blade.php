@@ -1,4 +1,4 @@
-@extends('frontend.layouts.app')
+@extends('frontend.layouts.app2')
 @section('content')
 
 <div class="col-sm-9">
@@ -116,6 +116,7 @@
             {{ $cmt['level'] }}
             @endforeach --}}
             @foreach ($comment as $key =>$a)
+            {{-- @if ($a->level == 0 ) --}}
             <li class="media">
                 <a class="pull-left" href="#">
                     <img class="media-object" style="max-height: 80px"
@@ -124,6 +125,7 @@
                 <div class="media-body">
                     <ul class="sinlge-post-meta">
                         <li><i class="fa fa-user"></i>{{ $a->name }}</li>
+                        {{-- <li><i class="fa fa-user"></i>{{ $a->name }}</li> --}}
                         <li><i class="fa fa-clock-o"></i>{{$a->created_at}}</li>
                         <li><i class="fa fa-calendar"></i> DEC 5, 2013</li>
                     </ul>
@@ -132,6 +134,7 @@
                             class="fa fa-reply"></i>Replay</a>
                 </div>
             </li>
+            {{-- @endif --}}
             @foreach ($comment as $key =>$b)
             @if ($b->level == $a->id )
             <li class="media second-media">

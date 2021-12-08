@@ -311,7 +311,81 @@ class ProductController extends Controller
         // - hinh 3;
 
     }
+    public function search(Request $request)
+    {
+        $allcategory = category::all();
+        $allbrand = brand::all();
+        $search = $request->search;
+        // dd($search);
+        $product = product::where('name', 'like', '%' . $search . '%')->get();
+        // dd($product);
+        return view('frontend.product.search', compact('product', 'allcategory', 'allbrand'));
+    }
+    public function search_advanced()
+    {
+        // $searchProduct = product::orderBy('created_at', 'desc')->limit(6)->get();
+        $searchProduct = product::orderBy('created_at', 'desc')->paginate(6);
+        // dd($product);
+        $allcategory = category::all();
+        $allbrand = brand::all();
+        return view('frontend.product.search-advanced', compact('searchProduct', 'allcategory', 'allbrand'));
+    }
+    public function search_ad(Request $request)
+    {
+        $allcategory = category::all();
+        $allbrand = brand::all();
+        $data = $request->all();
+        $product = product::query();
+        $search = $request->search;
+        // dd($data['status']);
+        // dd($data);
+        if ($data['search'] != null) {
+            $product->where('name', 'like', '%' . $search . '%');
+        }
+        // dd($product);
+        if ($data['price'] != 'null') {
+            if ($data['price'] == '1-100') {
+                $product->where('price', '<', 101);
+                // return 'a';
+            }
+            if ($data['price'] == '100-500') {
+                $product->whereBetween('price', [100, 500]);
+                // return 'b';
+            }
+            if ($data['price'] == '500-max') {
+                $product->where('price', '>', 500);
+                // return 'c';
+            }
+        }
+        if ($data['category'] != 'null') {
+            $product->where('id_category', $data['category']);
+            // return 'a';
+        }
+        // return 'b';
+        if ($data['brand'] != 'null') {
+            $product->where('id_brand', $data['brand']);
+        }
+        if ($data['status'] != 'null') {
+            $product->where('status', $data['status']);
+        }
 
+        // dd($product);
+        $searchProduct = $product->orderBy('created_at', 'desc')->paginate(6);
+        // dd($searchProduct);
+        return view('frontend.product.search-advanced', compact('searchProduct', 'allcategory', 'allbrand'));
+    }
+    public function priceRage()
+    {
+        $price = $_POST['price'];
+        // dd($price);
+
+        $first = $price[0];
+        $last = $price[1];
+        // dd($first);
+        $product = product::whereBetween('price', [$first, $last])->get()->toArray();
+        // dd($product);
+        return response()->json(['product' => $product]);
+    }
     /**
      * Remove the specified resource from storage.
      *

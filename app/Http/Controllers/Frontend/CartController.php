@@ -6,9 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\brand;
 use App\Models\category;
 use App\Models\product;
+use App\Models\history;
+
 use Illuminate\Http\Request;
 use Cart;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -22,6 +26,21 @@ class CartController extends Controller
      */
     public function index()
     {
+    }
+    public function show_cart_menu()
+    {
+        $output = '';
+        if (session()->has('cart')) {
+            $cart = count(session()->get('cart'));
+            if ($cart > 0) {
+                $output .= '<li><a href="' . url('/gio-hang') . '">' . $cart . '<i class="fa fa-shopping-cart"></i> 
+        Cart</a></li>';
+            }
+        } else {
+            $output .= '<li><a href="' . url('/gio-hang') . '">0<i class="fa fa-shopping-cart"></i> 
+        Cart</a></li>';
+        }
+        echo $output;
     }
     public function add_to_cart_ajax(Request $request)
     {
@@ -237,7 +256,7 @@ class CartController extends Controller
             }
         }
 
-        // return response()->json(['success']);
+        return response()->json(['success']);
     }
     public function gio_hang(Request $request)
     {
@@ -254,8 +273,39 @@ class CartController extends Controller
     }
     public function sendmail()
     {
+        $allcategory = category::all();
+        $allbrand = brand::all();
+        // return view('frontend.sendmail.sendmail', compact('allcategory', 'allbrand'));
+        if (Auth::check()) {
+            $email = Auth::user()->email;
+            $phone = Auth::user()->phone;
+            $name = Auth::user()->name;
+            $id = Auth::user()->id;
+        }
+        $cart = session()->get('cart');
+        $tong = 0;
+        foreach ($cart as $key => $val) {
+            $price = $val['qty'] * $val['price'];
+            $tong += $price;
+        }
+        $data = array(
+            "name" => "thanh toan don ",
+        );
+        Mail::send('frontend.sendmail.sendmail', function ($message) use ($name, $email) {
+            $message->to('nguyenlongqb052113@gmail.com')->subject('Test mail google'); //send this mail with subject
+            $message->from($email, $name); //send from this mail
+        });
+        // dd($tong);
+        // $history = new history();
+        // $history->email = $email;
+        // $history->phone = $phone;
+        // $history->name = $name;
+        // $history->id_user = $id;
+        // $history->price = $tong;
+        // $history->save();
+        // session()->forget('cart');
 
-        echo ' a';
+        // return redirect()->back()->with('success', __('Thanh toan thanh cong'));
     }
 
 

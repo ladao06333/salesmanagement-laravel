@@ -2,7 +2,7 @@
 @section('content')
 <div class="features_items">
     <!--features_items-->
-    <h2 class="title text-center">Features Items</h2>
+    <h2 class="title text-center">Kết quả tìm kiếm</h2>
     @foreach ($product as $item)
     <?php 
     $getArrImage = json_decode($item->hinhanh, true);
@@ -22,7 +22,12 @@
                             <input type="hidden" value="1" class="cart_product_qty_{{$item->id}}">
                             <a href="{{URL::to('/detail/'.$item->id)}}">
                                 <img src="{{asset('upload/product/'.$getArrImage[0])}}" alt="">
+                                @if($item->sale != 0)
+                                <?php $price = $item->price *((100-$item->sale)/100); ?>
+                                <h2>{{$price}}</h2>
+                                @else
                                 <h2>{{$item->price}}</h2>
+                                @endif
                                 <p>{{$item->name}}</p>
                                 {{-- <a href="#" class="btn btn-default add-to-cart"><i
                                         class="fa fa-shopping-cart"></i>Add
@@ -55,53 +60,4 @@
     </div>
     @endforeach
 </div>
-{{-- <script>
-    $(document).ready(function(){
-        $('.slider-track').click(function(){
-            var priceRage = $('.tooltip-inner').text();
-            // console.log(priceRage);
-            // console.log('a');
-            var tach = [];
-            tach = priceRage.split(':');
-            // console.log(arr);
-            $.ajax({
-                method:'POST',
-                url:'priceRage',
-                data:{
-                    price:tach,
-                    _token: '{{csrf_token()}}',
-                },
-                success:function(response){
-                    if(response.product){
-				 		var html = "";
-				 		var newArr = response.product;
-				 		newArr.map(function(product){
-				 			var image = jQuery.parseJSON(product['image']);
-						if(product['sale'] != 0){
-								 sale_price = product['price'] *((100-product['sale'])/100);
-						}else {
-							sale_price = product['price'];
-						}	
-				 			html += '<div class="product-view col-sm-4 ">'+
-				 					'<div class="product-image-wrapper"> '+
-				 					'<div class="single-products"style="padding-right:10px">' +
-				 					'<div class="productinfo text-center">'+
-				 						'<img width="100" height="70" src="/upload/user/product_img/'+image[0]+'">'+
-				 							'<h2>'+ sale_price +'</h2>'+
-				 							'<p>'+product['name']+'</p> '+
-				 							'<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart">'+
-				 					'</div>'+
-				 					
-				 					'</div>'+
-				 					'</div>'+
-						 			'</div>';
-				 		})
-				 		$('.features_items').html(html);
-				 		
-				 	}
-                }
-            });
-        });
-    });
-</script> --}}
 @endsection

@@ -152,6 +152,15 @@
     //         'X-CSRF-TOKEN':$('meta[name="crsf-token"]').attr('content'),
     //     }
     // });
+    function show_cart_menu(){
+                $.ajax({
+                    url:"{{url('show-cart')}}",
+                    method:"GET",
+                    success:function(data){
+                        $('#show-cart').html(data);
+                    }
+                });
+    }
     $("a.cart_quantity_up").click(function(){
         var id = $(this).closest('tr').find('.id').attr('id');
         // alert(id);
@@ -238,6 +247,7 @@
             },
             success: function(data){
                 // console.log(data);
+                show_cart_menu();
             }
         });
     });

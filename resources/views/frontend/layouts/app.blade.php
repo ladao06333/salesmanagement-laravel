@@ -689,8 +689,19 @@
     <script src="{{asset('frontend/js/jquery.prettyPhoto.js')}}"></script>
     <script src="{{asset('frontend/js/main.js')}}"></script>
     <script src="{{asset('frontend/js/sweetalert.min.js')}}"></script>
+
     <script type="text/javascript">
         $(document).ready(function(){
+            show_cart_menu();
+            function show_cart_menu(){
+                $.ajax({
+                    url:"{{url('show-cart')}}",
+                    method:"GET",
+                    success:function(data){
+                        $('#show-cart').html(data);
+                    }
+                });
+            }
             $('#addCart').click(function(){
                 var id = $(this).data('index');
                 console.log(id);
@@ -703,6 +714,7 @@
                         _token: '{{csrf_token()}}',
                     },
                 success:function(data) {
+                    show_cart_menu();
                 }
             });
 
@@ -803,6 +815,62 @@
            
         });
 
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.slider-track').click(function(){
+                var priceRage = $('.tooltip-inner').text();
+                // console.log(priceRage);
+                // console.log('a');
+                var tach = [];
+                tach = priceRage.split(':');
+                // console.log(arr);
+                $.ajax({
+                    method:'POST',
+                    url:'priceRage',
+                    data:{
+                        price:tach,
+                        _token: '{{csrf_token()}}',
+                    },
+                    success:function(response){
+                        if(response.product){
+                             var html = "";
+                             var product = response.product;
+                             product.map(function(product){
+                                var image = jQuery.parseJSON(product['hinhanh']);
+                                // console.log(image[0]);
+                                if(product['sale'] != 0){
+                                        price = product['price'] *((100-product['sale'])/100);
+                                }else {
+                                        price = product['price'];
+                                }	
+                                 html +=    '<div class="col-sm-4">'+
+                                                '<div class="product-image-wrapper">'+
+                                                    '<div class="single-products">'+
+                                                        '<div class="productinfo text-center">'+
+                                                                '<a href="../public/detail/'+product['id']+'">'+
+                                                                '<img src="upload/product/'+image[0]+'">'+
+                                                                '<h2>'+price+'</h2>'+
+                                                                '<p>'+product['name']+'</p>'+
+                                                            '</a>'+
+                                                            '<button type="button" class="btn btn-default add-to-cart" name="add-to-cart">Thêm giỏ hàng</button>'+
+                                                        '</div>'+
+                                                    '</div>'+
+                                                    '<div class="choose">'+
+                                                        '<ul class="nav nav-pills nav-justified">'+
+                                                            '<li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>'+
+                                                            '<li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>'+
+                                                        '</ul>'+
+                                                    '</div>'+
+                                                '</div>'+
+                                            '</div>';
+                             })
+                             $('.features_items').html(html);
+                         }
+                    }
+                });
+            });
+        });
     </script>
 </body>
 

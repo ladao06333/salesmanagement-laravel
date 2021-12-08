@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\blog;
+use App\Models\brand;
+use App\Models\category;
 use App\Models\rating;
 use App\Models\user;
 use App\Models\comment;
@@ -25,8 +27,10 @@ class BlogController extends Controller
      */
     public function index()
     {
+        $category = category::all();
+        $brand = brand::all();
         $blog  = blog::paginate(2);
-        return view('frontend.blog.list')->with('blog', $blog);
+        return view('frontend.blog.list', compact('blog', 'category', 'brand'));
     }
     // public function index2()
     // {
@@ -66,9 +70,12 @@ class BlogController extends Controller
         $max = blog::max('id');
         $min = blog::min('id');
         //$comment = comment::all()->where('id_blog', $id);
+        // $getBlogDetail = Blog::with(['comment' => function ($q) {
+        //     $q->orderBy('id', 'desc');
+        // }])->find($id)->toArray();
         $getBlogDetail = Blog::with(['comment' => function ($q) {
             $q->orderBy('id', 'desc');
-        }])->find($id)->toArray();
+        }])->find($id);
         $comment = $getBlogDetail['comment'];
         // dd($comment);
         // $getBlogDetail = Blog::with(['comment' => function ($q) {
@@ -135,7 +142,7 @@ class BlogController extends Controller
     }
     public function post_comment(Request $request, $id)
     {
-        // $data = $request->all();
+        $data = $request->all();
         $id_user = Auth::id();
         $user = user::find($id_user);
         // dd($data);
@@ -147,7 +154,15 @@ class BlogController extends Controller
         $comment->name = $user->name;
         $comment->image = $user->avatar;
         $comment->content = $request->content;
-        $comment->level = $request->id_comment;
+        if (($request->id_comment) == null) {
+            $comment->level = 0;
+            // return 'a';
+        } else {
+            $comment->level = $request->id_comment;
+            // return 'b';
+        }
+
+
         // dd($comment);
         if ($comment->save()) {
             return redirect()->back()->with('success', (' success'));

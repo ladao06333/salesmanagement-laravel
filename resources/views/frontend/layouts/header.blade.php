@@ -72,7 +72,19 @@
                                 @endif
                             <li><a href=""><i class="fa fa-star"></i> Wishlist</a></li>
                             <li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
-                            <li><a href="{{URL::to('/gio-hang')}}"><i class="fa fa-shopping-cart"></i> Cart</a></li>
+                            {{-- <li><a href="{{URL::to('/gio-hang')}}"> <i class="fa fa-shopping-cart"></i> Cart</a>
+                            </li> --}}
+
+                            {{-- bo php vao if(session()->has('cart')){
+                            $num = count(session()->get('cart'));
+                            echo $num;
+                            } --}}
+                            <style>
+                                span#show-cart li {
+                                    margin-top: 9px;
+                                }
+                            </style>
+                            <li><span id="show-cart"></span></li>
                             <li>
                                 @if (Auth::check())
                                 <a href="{{URL::to('/logout')}}"><i class="fa fa-lock"></i> Logout</a>
@@ -122,13 +134,19 @@
                             </li>
                             <li><a href="404.html">404</a></li>
                             <li><a href="contact-us.html">Contact</a></li>
+                            <li><a href="{{url('search-advanced')}}">Search advanced</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="search_box pull-right">
-                        <input type="text" placeholder="Search" />
+                        <form action="{{URL::to('/search')}}">
+                            @csrf
+                            <input class="search" name="search" type="text" placeholder="Search" />
+                            {{-- <button class="search" style=""><a>Search</a></button> --}}
+                        </form>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -136,3 +154,11 @@
     <!--/header-bottom-->
 </header>
 <!--/header-->
+<script>
+    // $('.search').click(function(){
+    //     // alert('a');
+    //     var a = $(this).closest('input').text();
+    //     console.log(a);
+    // })
+   
+</script>
